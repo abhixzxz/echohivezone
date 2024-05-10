@@ -3,9 +3,9 @@ import MainChat from "../mainChat/mainchat";
 
 function Home() {
   return (
-    // <div>
-    <MainChat />
-    // </div>
+    <div>
+      <MainChat />
+    </div>
   );
 }
 

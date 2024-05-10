@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
+import axios from "axios";
 
 const useGetConversations = () => {
   const [loading, setLoading] = useState(false);
@@ -9,11 +10,8 @@ const useGetConversations = () => {
     const getConversations = async () => {
       setLoading(true);
       try {
-        const res = await fetch("http://localhost:8001/api/users");
-        const data = await res.json();
-        if (data.error) {
-          throw new Error(data.error);
-        }
+        const res = await axios.get("http://localhost:8001/api/users");
+        const data = res.data;
         setConversations(data);
       } catch (error) {
         toast.error(error.message);
