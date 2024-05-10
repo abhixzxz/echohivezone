@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ImgInitial from "../../../assets/images/3255395.jpg";
 import useConversation from "../../../zustant/useConversation";
+import useSendMessage from "../../../hooks/useSendMessage";
 function ChatSection() {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const [inputText, setInputText] = useState("");
+  const [message, setMessage] = useState("");
+  const { loading, sendMessage } = useSendMessage();
+
   const selectedChat = false;
   const [messages, setMessages] = useState([
     { id: 1, sender: "A", text: "Hey haii ?" },
@@ -34,6 +38,21 @@ function ChatSection() {
 
     setMessages([...messages, newMessage]);
     setInputText("");
+  };
+
+  useEffect(() => {
+    // cleanup function (unmounts)
+    return () => setSelectedConversation(null);
+  }, [setSelectedConversation]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!message) return;
+    await sendMessage(message);
+    setMessage(""); // Clear the input field after sending the message
+    // Note: You might need to update the local state with the new message received from the backend
+    // Example:
+    // setMessages([...messages, newMessageFromBackend]);
   };
 
   return (
@@ -83,20 +102,23 @@ function ChatSection() {
               ))}
             </div>
           </div>
-          <div className="flex items-center h-16 w-full rounded-xl text-white bg-white px-4">
-            <input
-              type="text"
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              className="flex-grow h-10 pl-4 pr-12 border rounded-xl focus:outline-none bg-white text-black focus:border-green-300"
-            />
-            <button
-              onClick={handleSendMessage}
-              className="ml-4 px-4 py-3 bg-red-500 hover:bg-green-600 text-white rounded-xl"
-            >
-              Send
-            </button>
-          </div>
+          <form onSubmit={handleSubmit} className="flex justify-center">
+            <div className="flex items-center h-16 w-full rounded-xl text-white bg-white px-4">
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="flex-grow h-10 pl-4 pr-12 border rounded-xl focus:outline-none bg-white text-black focus:border-green-300"
+              />
+              <button
+                type="submit"
+                onClick={handleSendMessage}
+                className="ml-4 px-4 py-3 bg-red-500 hover:bg-green-600 text-white rounded-xl"
+              >
+                Send
+              </button>
+            </div>
+          </form>
         </div>
       ) : (
         <div className="my-auto flex pb-1 pt-1">

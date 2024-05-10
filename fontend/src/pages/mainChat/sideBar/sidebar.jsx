@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { GiShieldEchoes } from "react-icons/gi";
 
 import LogoutButton from "../../../components/Buttons/Logout";
