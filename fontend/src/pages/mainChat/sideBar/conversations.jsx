@@ -1,6 +1,7 @@
+/* eslint-disable react/prop-types */
 // eslint-disable-next-line react/prop-types
 import React, { useState } from "react";
-import useConversation from "../../../zustant/useConversation";
+import useConversation from "../../../zustand/useConversation";
 
 function Conversations({ conversation, key }) {
   const { selectedConversation, setSelectedConversation } = useConversation();

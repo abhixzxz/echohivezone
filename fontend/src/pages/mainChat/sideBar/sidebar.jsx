@@ -5,8 +5,9 @@ import LogoutButton from "../../../components/Buttons/Logout";
 import useLogout from "../../../hooks/useLogout";
 import useGetConversations from "../../../hooks/useGetConverstions";
 import { useAuthContext } from "../../../context/AuthContext";
-import useConversation from "../../../zustant/useConversation";
+
 import Conversations from "./conversations";
+import SearchInput from "./ searchInput";
 
 function Sidebar() {
   const { loading, conversations } = useGetConversations();
@@ -59,14 +60,8 @@ function Sidebar() {
         </div>
       </div>
 
-      {/* Conversation List */}
       <div className="mt-8 flex flex-col">
-        {/* Search Input */}
-        <div className="flex flex-row items-center justify-between text-xs w-full">
-          <label className="input input-bordered bg-white text-black border-2 border-red-400 flex items-center gap-2 w-full">
-            <input type="text" className="bg-white" placeholder="Search" />
-          </label>
-        </div>
+        <SearchInput />
 
         {/* Conversation Buttons */}
         {/* Conversation Buttons */}
