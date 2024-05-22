@@ -31,7 +31,7 @@ function SearchInput() {
   return (
     <form onSubmit={handleSubmit}>
       <div className="flex flex-row items-center justify-between text-xs w-full">
-        <div className="input input-bordered bg-white text-black border-2 border-red-400 flex items-center gap-2 w-full">
+        <div className="input input-bordered bg-white text-black border-2 border-red-200 flex items-center gap-2 w-full">
           <input
             type="text"
             className="bg-white flex-1"

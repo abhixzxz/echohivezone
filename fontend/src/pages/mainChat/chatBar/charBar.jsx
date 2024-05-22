@@ -5,12 +5,18 @@ import useConversation from "../../../zustand/useConversation";
 import useGetMessages from "../../../hooks/useGetMessages";
 import MessageInput from "./messageInput/messageInput";
 import Messages from "./messages/Messages";
+import { useSocketContext } from "../../../context/SocketContext";
+import { useAuthContext } from "../../../context/AuthContext";
+import { IoCallSharp } from "react-icons/io5";
+import { IoIosVideocam } from "react-icons/io";
+import { IoSettingsSharp } from "react-icons/io5";
 
 function ChatSection() {
   const { selectedConversation, setSelectedConversation } = useConversation();
   const { messages } = useGetMessages();
-
   const selectedChat = false;
+  const { authUser } = useAuthContext();
+
   // const [messages, setMessages] = useState([
   //   { id: 1, sender: "A", text: "Hey haii ?" },
   //   {
@@ -50,23 +56,35 @@ function ChatSection() {
     setMessage(message + emojiObject.emoji);
   };
 
+  const { onlineUsers } = useSocketContext();
+  const isOnline = onlineUsers.includes(selectedConversation?._id);
+
   return (
     <div className="h-screen w-full">
       {selectedConversation ? (
         <div className="flex flex-col p-2 w-full h-screen">
-          <div className="flex items-center gap-3 p-5 py-4 rounded h-auto bg-slate-600">
-            <div className="">
+          <div className="flex items-center justify-between gap-3 p-5 py-4 rounded h-auto bg-slate-600">
+            <div className="flex items-center gap-3">
               <img
                 src={selectedConversation?.profilePic}
                 alt="prfile pic"
                 className="h-16 w-16"
               />
+
+              <div className="">
+                <h1 className="text-white font-bold">
+                  {selectedConversation?.fullName}
+                </h1>
+                <em className="text-white text-[14px]">
+                  {isOnline ? "Online" : "Offline"}
+                </em>
+              </div>
             </div>
-            <div className="">
-              <h1 className="text-white font-bold">
-                {selectedConversation?.fullName}
-              </h1>
-              <em className="text-white text-[14px]">Online</em>
+
+            <div className="flex items-center text-[25px] text-white float-right gap-3 mr-2 ">
+              <IoCallSharp className="cursor-pointer" />
+              <IoIosVideocam className="cursor-pointer" />
+              <IoSettingsSharp className="cursor-pointer" />
             </div>
           </div>
 
@@ -83,7 +101,10 @@ function ChatSection() {
           <MessageInput />
         </div>
       ) : (
-        <div className="my-auto flex pb-1 pt-1">
+        <div className="my-auto flex flex-col pb-1 pt-1 relative">
+          <h1 className=" absolute text-[35px] font-bold uppercase top-[100px] text-red-500 left-[500px]">
+            Hello, {authUser?.username}
+          </h1>
           <img src={ImgInitial} alt="img chat" className="h-[99vh] rounded" />
         </div>
       )}
